@@ -307,22 +307,18 @@ async function send(){
   document.getElementById("status")
     .innerText = "送信中...";
 
-  // const response = await fetch(GAS_URL,{
+  const params = new URLSearchParams({
+  mode: "stamp",
+  userId: userId,
+  sub: sub,
+  stamps: stamps.map(s => s.id).join(",")
+});
 
-  //   method:"POST",
+const res = await fetch(GAS_URL + "?" + params.toString());
 
-  //   headers:{
-  //     "Content-Type":"application/json"
-  //   },
-
-  //   body:JSON.stringify({
-  //     userId:userId,
-  //     sub:sub,
-  //     stamps:stamps.map(s=>s.id)
-  //   })
-
-  // });
-
+const text = await res.text();
+console.log("response:", text);
+  
   try{
 
   console.log("fetch前");
