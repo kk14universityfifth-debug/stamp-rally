@@ -215,8 +215,7 @@ try {
   console.log("ユーザー取得エラー:", e);
 }
 
-  let userData = await userRes.json();
-  await drawStampBook(updatedUserData);
+  await drawStampBook(userData);
   
   const allAlready = stamps.every(
     s => userData.includes(s.id)
