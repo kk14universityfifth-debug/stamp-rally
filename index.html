@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>スタンプ取得</title>
+
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+<style>
+body{
+  font-family:sans-serif;
+  text-align:center;
+  padding:20px;
+  background:#f5f5f5;
+}
+
+.card{
+  background:white;
+  border-radius:12px;
+  padding:20px;
+  max-width:400px;
+  margin:auto;
+}
+
+.stamp{
+  display:flex;
+  align-items:center;
+  margin:10px 0;
+  padding:10px;
+  border:1px solid #ddd;
+  border-radius:10px;
+}
+
+.stamp img{
+  width:60px;
+  height:60px;
+  margin-right:10px;
+}
+
+button{
+  margin-top:20px;
+  padding:15px 30px;
+  border:none;
+  border-radius:10px;
+  background:#06C755;
+  color:white;
+  font-size:16px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h2 id="title">読み込み中...</h2>
+
+<div id="stampArea"></div>
+
+<p id="status"></p>
+
+<button id="btn" disabled>
+スタンプを取得！
+</button>
+
+</div>
+
+<script>
+
+const LIFF_ID = "2010010965-sP88JhBz";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbzHKAMu-EH4zXBFSzd0CPNjoe5JS5fe7fM3_ZkG05rwBn8YRbAdgTTjXvVB97PqK7yd4g/exec  ";
+
+let userId = "";
+let spot = "";
+let stamps = [];
+
+function getParam(name){
+  return new URL(location.href).searchParams.get(name);
+}
+
+async function init(){
+
+  spot = getParam("spot");
+
+  await liff.init({
+    liffId: LIFF_ID
+  });
+
+  if(!liff.isLoggedIn()){
+    liff.login();
+    return;
+  }
+
+  const profile = await liff.getProfile();
+  userId = profile.userId;
+
+  // スタンプ情報取得
+  const res = await fetch(
+    GAS_URL + "?mode=spot&spot=" + spot
+  );
+
+  const data = await res.json();
+
+  document.getElementById("title").innerText =
+    "📍 " + spot + " の活動";
+
+  // 表示
+  data.forEach(s=>{
+
+    const div = document.createElement("div");
+    div.className = "stamp";
+
+    div.innerHTML = 
+      <img src="${s.image}">
+      <div>
+        <b>${s.name}</b><br>
+        ${s.genre}
+      </div>
+    ;
+
+    document.getElementById("stampArea")
+      .appendChild(div);
+
+  });
+
+  stamps = data;
+
+  // 取得済み確認
+  const userRes = await fetch(
+    GAS_URL + "?mode=user&userId=" + userId
+  );
+
+  const userData = await userRes.json();
+
+  const allAlready = stamps.every(
+    s => userData.includes(s.id)
+  );
+
+  if(allAlready){
+
+    document.getElementById("status")
+      .innerText = "⚠️ 取得済みです";
+
+  }else{
+
+    document.getElementById("status")
+      .innerText = "取得できます！";
+
+    document.getElementById("btn")
+      .disabled = false;
+
+  }
+
+}
+
+async function send(){
+
+  document.getElementById("btn")
+    .disabled = true;
+
+  document.getElementById("status")
+    .innerText = "送信中...";
+
+  await fetch(GAS_URL,{
+
+    method:"POST",
+
+    headers:{
+      "Content-Type":"application/json"
+    },
+
+    body:JSON.stringify({
+      userId:userId,
+      stamps:stamps.map(s=>s.id)
+    })
+
+  });
+
+  document.getElementById("status")
+    .innerText = "🎉 LINEを確認してください！";
+
+}
+
+document.getElementById("btn")
+  .onclick = send;
+
+init();
+
+</script>
+
+</body>
+</html>
