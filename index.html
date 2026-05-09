@@ -216,7 +216,7 @@ try {
 }
 
   let userData = await userRes.json();
-  await drawStampBook(userData);
+  await drawStampBook(updatedUserData);
   
   const allAlready = stamps.every(
     s => userData.includes(s.id)
