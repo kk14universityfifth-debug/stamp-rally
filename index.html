@@ -135,13 +135,6 @@ async function init(){
   }
 
   // 👇ここ追加
-  const friendship = await liff.getFriendship();
-
-  if(!friendship.friendFlag){
-    alert("LINEの友だち追加をしてください");
-    return;
-  }
-  
   const context = liff.getContext();
   userId = context.userId;
   const idToken = liff.getIDToken();
