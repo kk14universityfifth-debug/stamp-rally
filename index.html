@@ -135,14 +135,18 @@ async function init(){
   }
 
   // 👇ここ追加
-  const context = liff.getContext();
-  userId = context.userId;
-  const idToken = liff.getIDToken();
-  sub = JSON.parse(atob(idToken.split('.')[1])).sub;
-  
-  
   const profile = await liff.getProfile();
   userId = profile.userId;
+  const idToken = liff.getIDToken();
+  
+  if(idToken){
+    sub = JSON.parse(atob(idToken.split('.')[1])).sub;
+  } eles {
+    sub ="";
+  }
+  
+  
+  
 
   // スタンプ情報取得
   const res = await fetch(
