@@ -84,7 +84,8 @@ const GAS_URL = "https://script.google.com/macros/s/AKfycbzHKAMu-EH4zXBFSzd0CPNj
 let userId = "";
 let spot = "";
 let stamps = [];
-
+let allGenres = [];
+  
 const stampPositions = {
 
   kids:[81,283],
@@ -175,6 +176,13 @@ async function init(){
 
   stamps = data;
 
+  const genreRes = await fetch(
+  GAS_URL + "?mode=genres"
+);
+
+allGenres =
+  await genreRes.json();
+
   // 取得済み確認
   const userRes = await fetch(
     GAS_URL + "?mode=user&userId=" + userId
@@ -235,7 +243,7 @@ async function drawStampBook(userData){
   ctx.drawImage(base,0,0);
 
   // スタンプ
-  for(const s of stamps){
+  for(const s of allGenres){
 
     if(userData.includes(s.id)){
 
