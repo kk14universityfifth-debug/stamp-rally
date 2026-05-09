@@ -57,6 +57,16 @@ button{
 
 <div id="stampArea"></div>
 
+<canvas id="stampBook"
+width="1492"
+height="1054"
+style="
+width:100%;
+margin-top:20px;
+background:white;
+border-radius:12px;
+"></canvas>
+
 <p id="status"></p>
 
 <button id="btn" disabled style="display:none;">
@@ -74,6 +84,36 @@ let userId = "";
 let spot = "";
 let stamps = [];
 
+const stampPositions = {
+
+  kids:[81,283],
+  edu:[268,283],
+  welfare_dis:[456,283],
+  welfare_old:[644,283],
+  health:[832,283],
+  global:[1020,283],
+  env:[1208,283],
+
+  animal:[81,471],
+  culture:[268,471],
+  sports:[456,471],
+  disaster:[644,471],
+  community:[832,471],
+  event:[1020,471],
+  rights:[1208,471],
+
+  studytour:[81,659],
+  online:[268,659],
+  seminar:[456,659],
+  donation:[644,659],
+  kgvnet:[832,659],
+  sdgs:[1020,659],
+  other:[1208,659]
+
+};
+
+
+  
 function getParam(name){
   return new URL(location.href).searchParams.get(name);
 }
@@ -140,7 +180,8 @@ async function init(){
   );
 
   const userData = await userRes.json();
-
+  await drawStampBook(userData);
+  
   const allAlready = stamps.every(
     s => userData.includes(s.id)
   );
@@ -165,6 +206,63 @@ async function init(){
 
 }
 
+async function drawStampBook(userData){
+
+  const canvas =
+    document.getElementById("stampBook");
+
+  const ctx =
+    canvas.getContext("2d");
+
+  ctx.clearRect(
+  0,
+  0,
+  canvas.width,
+  canvas.height
+);
+  
+  // 台紙
+  const base = new Image();
+
+  base.src =
+    "https://kk14universityfifth-debug.github.io/stamp-rally/images/stampbook.png";
+
+  await new Promise(r=>{
+    base.onload = r;
+  });
+
+  ctx.drawImage(base,0,0);
+
+  // スタンプ
+  for(const s of stamps){
+
+    if(userData.includes(s.id)){
+
+      const img = new Image();
+
+      img.src = s.image;
+
+      await new Promise(r=>{
+        img.onload = r;
+      });
+
+      const pos =
+        stampPositions[s.id];
+
+      ctx.drawImage(
+        img,
+        pos[0],
+        pos[1],
+        118,
+        155
+      );
+
+    }
+
+  }
+
+}
+  
 async function send(){
 
   document.getElementById("btn")
@@ -188,11 +286,21 @@ async function send(){
 
   });
 
+  // 再取得
+  const userRes = await fetch(
+    GAS_URL + "?mode=user&userId=" + userId
+  );
+
+  const userData =
+    await userRes.json();
+
+  // 再描画
+  await drawStampBook(userData);
+
   document.getElementById("status")
     .innerText = "🎉 LINEを確認してください！";
 
 }
-
 document.getElementById("btn")
   .onclick = send;
 
