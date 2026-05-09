@@ -110,13 +110,13 @@ async function init(){
     const div = document.createElement("div");
     div.className = "stamp";
 
-    div.innerHTML = 
+    div.innerHTML = `
       <img src="${s.image}">
       <div>
         <b>${s.name}</b><br>
-        ${s.genre}
+        ${s.activity}
       </div>
-    ;
+    `;
 
     document.getElementById("stampArea")
       .appendChild(div);
