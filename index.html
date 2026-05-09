@@ -83,6 +83,7 @@ const GAS_URL = "https://script.google.com/macros/s/AKfycbzHKAMu-EH4zXBFSzd0CPNj
 
 let userId = "";
 let spot = "";
+let sub = "";
 let stamps = [];
 let allGenres = [];
   
@@ -133,6 +134,21 @@ async function init(){
     return;
   }
 
+  // 👇ここ追加
+  const friendship = await liff.getFriendship();
+
+  if(!friendship.friendFlag){
+    alert("LINEの友だち追加をしてください");
+    return;
+  }
+  
+  const context = liff.getContext();
+  userId = context.userId;
+  const idToken = liff.getIDToken();
+  sub = JSON.parse(atob(idToken.split('.')[1])).sub;
+  const sub = JSON.parse(atob(idToken.split('.')[1])).sub;
+  const userId = context.userId;
+  
   const profile = await liff.getProfile();
   userId = profile.userId;
 
@@ -291,6 +307,7 @@ async function send(){
 
     body:JSON.stringify({
       userId:userId,
+      sub:sub,
       stamps:stamps.map(s=>s.id)
     })
 
