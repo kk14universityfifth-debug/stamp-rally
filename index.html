@@ -62,6 +62,7 @@ width="1492"
 height="1054"
 style="
 width:100%;
+height:auto;
 margin-top:20px;
 background:white;
 border-radius:12px;
@@ -271,7 +272,7 @@ async function send(){
   document.getElementById("status")
     .innerText = "送信中...";
 
-  await fetch(GAS_URL,{
+  const response = await fetch(GAS_URL,{
 
     method:"POST",
 
@@ -285,6 +286,16 @@ async function send(){
     })
 
   });
+
+  // エラー確認
+  if(!response.ok){
+
+    document.getElementById("status")
+      .innerText = "エラーが発生しました";
+
+    return;
+
+  }
 
   // 再取得
   const userRes = await fetch(
@@ -301,7 +312,8 @@ async function send(){
     .innerText = "🎉 LINEを確認してください！";
 
 }
-document.getElementById("btn")
+  
+  document.getElementById("btn")
   .onclick = send;
 
 init();
