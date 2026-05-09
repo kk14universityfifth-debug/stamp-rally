@@ -59,7 +59,7 @@ button{
 
 <p id="status"></p>
 
-<button id="btn" disabled>
+<button id="btn" disabled style="display:none;">
 スタンプを取得！
 </button>
 
@@ -101,8 +101,17 @@ async function init(){
 
   const data = await res.json();
 
+  if(data.length === 0){
+
+    document.getElementById("title")
+      .innerText = "活動が見つかりません";
+
+    return;
+
+  }
+  
   document.getElementById("title").innerText =
-    "📍 " + spot + " の活動";
+    "📍 " + data[0].activity;
 
   // 表示
   data.forEach(s=>{
@@ -136,6 +145,9 @@ async function init(){
     s => userData.includes(s.id)
   );
 
+  const btn =
+  document.getElementById("btn");
+
   if(allAlready){
 
     document.getElementById("status")
@@ -146,8 +158,8 @@ async function init(){
     document.getElementById("status")
       .innerText = "取得できます！";
 
-    document.getElementById("btn")
-      .disabled = false;
+    btn.style.display = "inline-block";
+    btn.disabled = false;
 
   }
 
