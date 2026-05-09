@@ -238,7 +238,7 @@ async function drawStampBook(userData){
 
   await new Promise(r=>{
     base.onload = r;
-    img.onerror = r;
+    base.onerror = r;
   });
 
   ctx.drawImage(base,0,0);
