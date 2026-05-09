@@ -238,6 +238,7 @@ async function drawStampBook(userData){
 
   await new Promise(r=>{
     base.onload = r;
+    img.onerror = r;
   });
 
   ctx.drawImage(base,0,0);
@@ -319,6 +320,8 @@ async function send(){
   document.getElementById("status")
     .innerText = "🎉 LINEを確認してください！";
 
+  document.getElementById("btn")
+  .style.display = "none";
 }
   
   document.getElementById("btn")
