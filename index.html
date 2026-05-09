@@ -124,7 +124,8 @@ function getParam(name){
 async function init(){
 
   spot = getParam("spot");
-
+  console.log("① spot:", spot);
+  
   await liff.init({
     liffId: LIFF_ID
   });
@@ -163,6 +164,8 @@ try {
 
   const data = await res.json();
 
+  console.log("② data:", data);
+  
   if(data.length === 0){
 
     document.getElementById("title")
@@ -171,6 +174,16 @@ try {
     return;
 
   }
+
+  if(!data || data.length === 0){
+
+  document.getElementById("title")
+    .innerText = "活動が見つかりません";
+
+  console.log("❌ data empty");
+
+  return;
+}
   
   document.getElementById("title").innerText =
     "📍 " + data[0].activity;
