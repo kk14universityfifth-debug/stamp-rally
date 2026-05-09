@@ -215,7 +215,7 @@ try {
   console.log("ユーザー取得エラー:", e);
 }
 
-  const userData = await userRes.json();
+  let userData = await userRes.json();
   await drawStampBook(userData);
   
   const allAlready = stamps.every(
