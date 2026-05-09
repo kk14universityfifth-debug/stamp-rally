@@ -146,8 +146,7 @@ async function init(){
   userId = context.userId;
   const idToken = liff.getIDToken();
   sub = JSON.parse(atob(idToken.split('.')[1])).sub;
-  const sub = JSON.parse(atob(idToken.split('.')[1])).sub;
-  const userId = context.userId;
+  
   
   const profile = await liff.getProfile();
   userId = profile.userId;
