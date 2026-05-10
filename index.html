@@ -402,18 +402,10 @@ async function send(){
 
     console.log("fetch前");
 
-    const formData =
-      new URLSearchParams();
+    const formData = new URLSearchParams();
 
-    formData.append(
-      "userId",
-      userId
-    );
-
-    formData.append(
-      "sub",
-      sub
-    );
+    formData.append("userId", userId);
+    formData.append("sub", sub);
 
     formData.append(
       "stamps",
@@ -422,39 +414,26 @@ async function send(){
       )
     );
 
-    const res =
-      await fetch(
-        GAS_URL,
-        {
-          method:"POST",
-          body:formData
-        }
-      );
+    const res = await fetch(GAS_URL,{
+      method:"POST",
+      body:formData
+    });
 
     console.log("fetch後");
 
-    const text =
-      await res.text();
+    const text = await res.text();
 
-    console.log(
-      "response:",
-      text
-    );
+    console.log("response:", text);
 
     document.getElementById("status")
-      .innerText =
-      "🎉 送信成功！";
+      .innerText = "🎉 送信完了！";
 
   }catch(e){
 
-    console.error(
-      "エラー:",
-      e
-    );
+    console.error("エラー:", e);
 
     document.getElementById("status")
-      .innerText =
-      "エラー";
+      .innerText = "エラーが発生しました";
 
   }
 
