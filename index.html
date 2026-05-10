@@ -246,7 +246,9 @@ try {
 status.innerText = "📖 スタンプ台紙を読み込み中...";
 status.style.display = "block";
 
-await new Promise(r => setTimeout(r, 50));
+await new Promise(r => requestAnimationFrame(()=>{
+  requestAnimationFrame(r);
+}));
 
 await drawStampBook(userData);
 
