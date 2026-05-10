@@ -349,17 +349,37 @@ console.log("response:", text);
 
   console.log("fetch前");
 
-  const res = await fetch(GAS_URL,{
-    method:"POST",
-    headers:{
-      "Content-Type":"application/json"
-    },
-    body:JSON.stringify({
-      userId:userId,
-      sub:sub,
-      stamps:stamps.map(s=>s.id)
-    })
-  });
+  const formData = new URLSearchParams();
+
+formData.append("userId", userId);
+formData.append("sub", sub);
+formData.append(
+  "stamps",
+  JSON.stringify(
+    stamps.map(s=>s.id)
+  )
+);
+
+const res = await fetch(GAS_URL,{
+  method:"POST",
+  body:formData
+});
+
+const text = await res.text();
+
+console.log("response:", text);
+    
+  // const res = await fetch(GAS_URL,{
+  //   method:"POST",
+  //   headers:{
+  //     "Content-Type":"application/json"
+  //   },
+  //   body:JSON.stringify({
+  //     userId:userId,
+  //     sub:sub,
+  //     stamps:stamps.map(s=>s.id)
+  //   })
+  // });
 
   console.log("fetch後");
 
