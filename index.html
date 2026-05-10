@@ -246,10 +246,12 @@ try {
 status.innerText = "📖 スタンプ台紙を読み込み中...";
 status.style.display = "block";
 
-await new Promise(r => requestAnimationFrame(r));
+await new Promise(r => setTimeout(r, 50));
 
 await drawStampBook(userData);
 
+status.innerText = "✅ 台紙読み込み完了";
+  
 const allAlready = stamps.every(
   s => userData.includes(s.id)
 );
