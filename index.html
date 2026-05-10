@@ -250,6 +250,9 @@ await new Promise(r => requestAnimationFrame(r));
 
   await drawStampBook(userData);
 
+const allAlready = stamps.every(
+  s => userData.includes(s.id)
+);
   status.innerText = allAlready
   ? "⚠️ 取得済みです"
   : "取得できます！";
