@@ -123,7 +123,20 @@ function getParam(name){
 
 async function init(){
 
-  spot = getParam("spot");
+  // URLからspot取得
+spot = getParam("spot");
+
+// 取得できたら保存
+if(spot){
+  sessionStorage.setItem("spot", spot);
+}
+
+// 消えてたら保存済みを使う
+if(!spot){
+  spot = sessionStorage.getItem("spot");
+}
+
+console.log("① spot:", spot);
   console.log("① spot:", spot);
   
   await liff.init({
