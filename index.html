@@ -248,18 +248,22 @@ status.style.display = "block";
 
 await new Promise(r => requestAnimationFrame(r));
 
-  await drawStampBook(userData);
+await drawStampBook(userData);
 
 const allAlready = stamps.every(
   s => userData.includes(s.id)
 );
-  status.innerText = allAlready
-  ? "⚠️ 取得済みです"
-  : "取得できます！";
-  
-  const allAlready = stamps.every(
-    s => userData.includes(s.id)
-  );
+
+const btn = document.getElementById("btn");
+
+if(allAlready){
+  status.innerText = "⚠️ 取得済みです";
+  btn.style.display = "none";
+}else{
+  status.innerText = "取得できます！";
+  btn.style.display = "inline-block";
+  btn.disabled = false;
+}
 
   const btn =
   document.getElementById("btn");
