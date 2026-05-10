@@ -246,14 +246,11 @@ try {
 status.innerText = "📖 スタンプ台紙を読み込み中...";
 status.style.display = "block";
 
-await new Promise(r => setTimeout(r, 50));
+await new Promise(r => requestAnimationFrame(r));
 
   await drawStampBook(userData);
 
-status.innerText = "";
-  
-  document.getElementById("status")
-  .innerText = "";
+  status.innerText = "";
   
   const allAlready = stamps.every(
     s => userData.includes(s.id)
