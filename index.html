@@ -325,70 +325,7 @@ async function drawStampBook(userData){
 
 }
   
-// async function send(){
 
-//   document.getElementById("btn")
-//     .disabled = true;
-
-//   document.getElementById("status")
-//     .innerText = "送信中...";
-
-//   const params = new URLSearchParams({
-//   mode: "stamp",
-//   userId: userId,
-//   sub: sub,
-//   stamps: stamps.map(s => s.id).join(",")
-// });
-
-// const res = await fetch(GAS_URL + "?" + params.toString());
-
-// const text = await res.text();
-// console.log("response:", text);
-  
-//   try{
-
-//   console.log("fetch前");
-
-//   const formData = new URLSearchParams();
-
-// formData.append("userId", userId);
-// formData.append("sub", sub);
-// formData.append(
-//   "stamps",
-//   JSON.stringify(
-//     stamps.map(s=>s.id)
-//   )
-// );
-
-// const res = await fetch(GAS_URL,{
-//   method:"POST",
-//   body:formData
-// });
-
-// console.log("response:", text);
-    
-//   // const res = await fetch(GAS_URL,{
-//   //   method:"POST",
-//   //   headers:{
-//   //     "Content-Type":"application/json"
-//   //   },
-//   //   body:JSON.stringify({
-//   //     userId:userId,
-//   //     sub:sub,
-//   //     stamps:stamps.map(s=>s.id)
-//   //   })
-//   // });
-
-//   console.log("fetch後");
-
-//   const text = await res.text();
-//   console.log("response:", text);
-
-// }catch(e){
-
-//   console.error("エラー:", e);
-
-// }
   
 async function send(){
 
@@ -439,33 +376,7 @@ async function send(){
 
 }
   
-  // エラー確認
-  if(!response.ok){
 
-    document.getElementById("status")
-      .innerText = "エラーが発生しました";
-
-    return;
-
-  }
-
-  // 再取得
-  const userRes = await fetch(
-    GAS_URL + "?mode=user&userId=" + userId
-  );
-
-  const userData =
-    await userRes.json();
-
-  // 再描画
-  await drawStampBook(userData);
-
-  document.getElementById("status")
-    .innerText = "🎉 LINEを確認してください！";
-
-  document.getElementById("btn")
-  .style.display = "none";
-}
   
   document.getElementById("btn")
   .onclick = send;
