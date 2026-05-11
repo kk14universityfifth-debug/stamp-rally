@@ -374,12 +374,12 @@ async function send(){
     );
 
     // 最新状態で台紙を再描画
-    const userRes = await fetch(
+    const latestRes = await fetch(
       GAS_URL + "?mode=user&userId=" + userId
     );
 
     const latestUserData =
-      await userRes.json();
+      await latestRes.json();
 
     // 今回取得するスタンプを追加
     stamps.forEach(s=>{
