@@ -373,6 +373,19 @@ async function send(){
       )
     );
 
+    // canvas → PNG(base64)
+    const canvas =
+      document.getElementById("stampBook");
+
+    const imageData =
+      canvas.toDataURL("image/png");
+
+    // GASへ送信
+    formData.append(
+      "imageData",
+      imageData
+    );
+    
     const res = await fetch(GAS_URL,{
       method:"POST",
       body:formData
