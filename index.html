@@ -381,14 +381,30 @@ async function drawStampBook(userData){
   
 async function send(){
 
+  const statusEl =
+  document.getElementById("status");
+
+let dots = 0;
+
+statusEl.innerText = "スタンプ取得中";
+
+const loadingAnim = setInterval(()=>{
+
+  dots = (dots + 1) % 4;
+
+  statusEl.innerText =
+    "スタンプ取得中" + ".".repeat(dots);
+
+}, 400);
+  
   document.getElementById("btn")
     .disabled = true;
 
   document.getElementById("btn")
     .style.opacity = "0.5";
   
-  document.getElementById("status")
-    .innerText = "スタンプ取得中...";
+  // document.getElementById("status")
+  //   .innerText = "スタンプ取得中...";
 
   try{
 
@@ -450,6 +466,8 @@ async function send(){
 
     console.log("response:", text);
 
+    clearInterval(loadingAnim);
+    
     document.getElementById("status")
       .innerText = "🎉 スタンプ獲得！";
 
@@ -483,6 +501,8 @@ await drawStampBook(userData);
 
     console.error("エラー:", e);
 
+    clearInterval(loadingAnim);
+    
     document.getElementById("status")
       .innerText = "エラーが発生しました";
 
