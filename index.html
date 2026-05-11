@@ -440,7 +440,7 @@ const loadingAnim = setInterval(()=>{
     });
 
     // 最新状態で描画
-    await drawStampBook(latestUserData);
+    // await drawStampBook(latestUserData);
     
     // canvas → PNG(base64)
     const canvas =
@@ -470,6 +470,9 @@ const loadingAnim = setInterval(()=>{
     
     document.getElementById("status")
       .innerText = "🎉 スタンプ獲得！";
+
+    // この瞬間にスタンプ押印
+    await drawStampBook(latestUserData);
 
     document.getElementById("btn")
       .style.display = "none";
