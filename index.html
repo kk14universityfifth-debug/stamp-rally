@@ -423,6 +423,8 @@ async function send(){
     document.getElementById("btn")
       .style.display = "none";
 
+    await new Promise(r=>setTimeout(r,1200));
+    
     const currentIds =
   stamps.map(s => s.id);
 
