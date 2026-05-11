@@ -50,9 +50,17 @@ button{
 </head>
 
 <body>
-
-<div class="card">
-
+<div id="loading" style="
+padding-top:120px;
+font-size:24px;
+font-weight:bold;
+">
+読み込み中<span id="dots">.</span>
+</div>
+  
+<!-- <div class="card"> -->
+<div class="card" id="mainCard" style="display:none;">
+  
 <h2 id="title">読み込み中...</h2>
 
 <div id="stampArea"></div>
@@ -77,7 +85,25 @@ border-radius:12px;
 </div>
 
 <script>
+// ローディングアニメ
+setInterval(()=>{
 
+  const dots =
+    document.getElementById("dots");
+
+  if(!dots) return;
+
+  if(dots.innerText === "."){
+    dots.innerText = "..";
+  }else if(dots.innerText === ".."){
+    dots.innerText = "...";
+  }else{
+    dots.innerText = ".";
+  }
+
+},400);
+
+  
 const LIFF_ID = "2010010965-sP88JhBz";
 const GAS_URL = "https://script.google.com/macros/s/AKfycbzHKAMu-EH4zXBFSzd0CPNjoe5JS5fe7fM3_ZkG05rwBn8YRbAdgTTjXvVB97PqK7yd4g/exec";
 
@@ -269,6 +295,13 @@ if(allAlready){
   btn.disabled = false;
 }
 
+// ローディング終了
+document.getElementById("loading")
+  .style.display = "none";
+
+document.getElementById("mainCard")
+  .style.display = "block";
+  
   if(allAlready){
 
     document.getElementById("status")
@@ -423,7 +456,7 @@ async function send(){
     document.getElementById("btn")
       .style.display = "none";
 
-    await new Promise(r=>setTimeout(r,1200));
+    await new Promise(r=>setTimeout(r,12000));
     
     const currentIds =
   stamps.map(s => s.id);
